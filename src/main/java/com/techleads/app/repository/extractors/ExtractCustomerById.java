@@ -18,12 +18,11 @@ public class ExtractCustomerById implements ResultSetExtractor<Customer> {
 		while (rs.next()) {
 			customer.setCustomerId(rs.getInt("CUST_ID"));
 			customer.setCustomerName(rs.getString("CUST_NAME"));
-
 			String stringDate = rs.getString("ORDER_DTE");
-
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate date = LocalDate.parse(stringDate, formatter);
 			customer.setOrderDate(date);
+			customer.setWeekend(rs.getString("WEEKEND"));
 
 		}
 		return customer;

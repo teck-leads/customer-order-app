@@ -18,6 +18,7 @@ public class Customer {
 	private Integer customerId;
 	private String customerName;
 	private LocalDate orderDate;
+	private String weekend;
 	private Address address;
 	private List<Orders> orders;
 	private TotalAmount totalAmount;

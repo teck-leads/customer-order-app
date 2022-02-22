@@ -36,7 +36,7 @@ public class CustomerService {
 		List<Orders> orders = customer.getOrders();
 		if (isWeekend) {
 			// apply 5% discount on weekends
-
+			customer.setWeekend("Yes");
 			for (Orders od : orders) {
 				// TODO if Item type is book add 5% additional discount
 				if (od.getItemType().equalsIgnoreCase("Book")) {
@@ -53,6 +53,7 @@ public class CustomerService {
 			}
 
 		} else {
+			customer.setWeekend("No");
 			// apply 2% discount on weekdays
 			for (Orders od : orders) {
 				// TODO if Item type is book add 5% additional discount

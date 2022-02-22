@@ -141,6 +141,7 @@ public class CustomerRepository {
 				ps.setString(1, customer.getCustomerName());
 				Date date = Date.valueOf(customer.getOrderDate());
 				ps.setDate(2, date);
+				ps.setString(3, customer.getWeekend());
 				return ps;
 			}, keyHolder);
 		} catch (DataAccessException e) {
