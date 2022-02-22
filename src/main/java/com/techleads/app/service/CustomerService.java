@@ -19,10 +19,10 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	public String saveCustomerAddress(Customer customer) {
+	public Customer saveCustomerAddress(Customer customer) {
 		applyDiscount(customer);
-		String saveCustomerAddress = customerRepository.saveCustomerAddress(customer);
-		return saveCustomerAddress;
+		customer = customerRepository.saveCustomerAddress(customer);
+		return customer;
 	}
 
 	public Customer findCustomerById(Integer id) {

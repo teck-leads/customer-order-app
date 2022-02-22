@@ -36,7 +36,7 @@ public class CustomerRepository {
 	@Autowired
 	private PlatformTransactionManager platformTransactionManager;
 
-	public String saveCustomerAddress(Customer customer) {
+	public Customer saveCustomerAddress(Customer customer) {
 
 		DefaultTransactionDefinition paramTransactionDefinition = new DefaultTransactionDefinition();
 
@@ -62,13 +62,15 @@ public class CustomerRepository {
 			totalAmount.setCustomerId(customerId);
 			saveTotalAmount(totalAmount);
 			platformTransactionManager.commit(status);
-			return "Customer is saved!";
+			
+			Customer customerById = findCustomerById((int)customerId);
+			return customerById;
 		} catch (Exception e) {
 			e.printStackTrace();
 			platformTransactionManager.rollback(status);
 		}
 
-		return "Warning not saved!";
+		return new Customer();
 	}
 
 	public Customer findCustomerById(Integer id) {

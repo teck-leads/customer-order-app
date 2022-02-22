@@ -83,9 +83,9 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping(value = { "/customers" })
-	public String saveOrder(@RequestBody Customer customer) {
-		String saveCustomerAddress = customerService.saveCustomerAddress(customer);
-		return saveCustomerAddress;
+	public Customer saveOrder(@RequestBody Customer customer) {
+		customer = customerService.saveCustomerAddress(customer);
+		return customer;
 	}
 
 }
