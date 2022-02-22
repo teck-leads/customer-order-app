@@ -19,5 +19,6 @@ public class Orders {
 	private Double price;
 	private Double discount;
 	private Double totalAmount;
+	private Long customerId;
 
 }

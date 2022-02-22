@@ -12,8 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TotalAmount {
+	private Integer tmtId;
 	private Double itemTotal;
 	private Double shippingCharge;
 	private Double orderTotal;
+	private Long customerId;
 
 }

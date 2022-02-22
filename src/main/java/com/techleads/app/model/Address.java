@@ -12,10 +12,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Address {
+	private Integer addrId;
 	private String streetName;
 	private String city;
 	private String state;
 	private String mobileNum;
 	private String pinCode;
+	private Long customerId;
 
 }

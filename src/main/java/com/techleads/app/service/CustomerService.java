@@ -4,16 +4,31 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.techleads.app.model.Customer;
 import com.techleads.app.model.Orders;
 import com.techleads.app.model.TotalAmount;
+import com.techleads.app.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
+
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	public String saveCustomerAddress(Customer customer) {
+		applyDiscount(customer);
+		String saveCustomerAddress = customerRepository.saveCustomerAddress(customer);
+		return saveCustomerAddress;
+	}
+
+	public Customer findCustomerById(Integer id) {
+		Customer findById = customerRepository.findCustomerById(id);
+		return findById;
+	}
 
 	public void applyDiscount(Customer customer) {
 		LocalDate orderDate = customer.getOrderDate();
@@ -58,13 +73,13 @@ public class CustomerService {
 		double totalItemAmt = orders.stream().mapToDouble(Orders::getTotalAmount).sum();
 		TotalAmount tmt = new TotalAmount();
 		tmt.setItemTotal(totalItemAmt);
-		
-		if(totalItemAmt<1000) {
+
+		if (totalItemAmt < 1000) {
 			tmt.setShippingCharge(100.00);
-			tmt.setOrderTotal(totalItemAmt+tmt.getShippingCharge());
-		}else {
+			tmt.setOrderTotal(totalItemAmt + tmt.getShippingCharge());
+		} else {
 			tmt.setShippingCharge(0.00);
-			tmt.setOrderTotal(totalItemAmt+tmt.getShippingCharge());
+			tmt.setOrderTotal(totalItemAmt + tmt.getShippingCharge());
 		}
 		customer.setOrders(orders);
 		customer.setTotalAmount(tmt);

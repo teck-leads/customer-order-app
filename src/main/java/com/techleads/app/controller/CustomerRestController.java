@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,10 +76,16 @@ public class CustomerRestController {
 		return cs;
 	}
 	
-	@PostMapping(value = { "/customers" })
-	public Customer saveOrder(@RequestBody Customer customer) {
-		customerService.applyDiscount(customer);
+	@GetMapping(value = { "/customers/{id}" })
+	public Customer findCustomerById(@PathVariable("id") Integer id) {
+		Customer customer = customerService.findCustomerById(id);
 		return customer;
+	}
+	
+	@PostMapping(value = { "/customers" })
+	public String saveOrder(@RequestBody Customer customer) {
+		String saveCustomerAddress = customerService.saveCustomerAddress(customer);
+		return saveCustomerAddress;
 	}
 
 }
