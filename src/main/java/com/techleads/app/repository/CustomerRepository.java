@@ -73,7 +73,7 @@ public class CustomerRepository {
 		return new Customer();
 	}
 
-	public Customer findCustomerById(Integer id) {
+	public Customer findCustomerById_bkup(Integer id) {
 		Customer customer = null;
 		try {
 			Object[] params = { id };
@@ -89,6 +89,21 @@ public class CustomerRepository {
 
 		TotalAmount totalAmount = findTotalAmountByCustomerId(id);
 		customer.setTotalAmount(totalAmount);
+
+		return customer;
+
+	}
+	
+	public Customer findCustomerById(Integer id) {
+		Customer customer = null;
+		try {
+			Object[] params = { id };
+			customer = jdbcTemplate.query(DBQueries.SELECT_CUSTMER_DETLS, new ExtractAllCustomerById(), params);
+
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		
 
 		return customer;
 
