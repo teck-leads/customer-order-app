@@ -22,6 +22,7 @@ import com.techleads.app.model.Customer;
 import com.techleads.app.model.Orders;
 import com.techleads.app.model.TotalAmount;
 import com.techleads.app.repository.extractors.ExtractAddressByCustId;
+import com.techleads.app.repository.extractors.ExtractAllCustomerById;
 import com.techleads.app.repository.extractors.ExtractAllOrdersByCustId;
 import com.techleads.app.repository.extractors.ExtractCustomerById;
 import com.techleads.app.repository.extractors.ExtractTotalAmountByCustId;

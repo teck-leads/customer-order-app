@@ -1,4 +1,4 @@
-package com.techleads.app.repository;
+package com.techleads.app.repository.extractors;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,17 +21,18 @@ public class ExtractAllCustomerById implements ResultSetExtractor<Customer> {
 	@Override
 	public Customer extractData(ResultSet rs) throws SQLException, DataAccessException {
 		List<Orders> orders = new ArrayList<>();
+		int rowCount = 0;
 		while (rs.next()) {
-			customer.setCustomerId(rs.getInt("CUST_ID"));
-			customer.setCustomerName(rs.getString("CUST_NAME"));
-			String stringDate = rs.getString("ORDER_DTE");
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate date = LocalDate.parse(stringDate, formatter);
-			customer.setOrderDate(date);
-			customer.setWeekend(rs.getString("WEEKEND"));
+			if (rowCount < 1) {
+				customer.setCustomerId(rs.getInt("CUST_ID"));
+				customer.setCustomerName(rs.getString("CUST_NAME"));
+				String stringDate = rs.getString("ORDER_DTE");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate date = LocalDate.parse(stringDate, formatter);
+				customer.setOrderDate(date);
+				customer.setWeekend(rs.getString("WEEKEND"));
 
-			Address addrs =	new Address();
-			if (null != addrs) {
+				Address addrs = new Address();
 				addrs.setAddrId(rs.getInt("ID_ADDRS"));
 				addrs.setStreetName(rs.getString("STREETNAME"));
 				addrs.setCity(rs.getString("CITY"));
@@ -41,26 +42,7 @@ public class ExtractAllCustomerById implements ResultSetExtractor<Customer> {
 				addrs.setCustomerId(rs.getLong("ADDR_CUST_ID"));
 
 				customer.setAddress(addrs);
-			}
-
-		
-			if (null != orders) {
-				Orders order = new Orders();
-				order.setItemId(rs.getInt("ITEM_ID"));
-				order.setItemType(rs.getString("ITEM_TYP"));
-				order.setItemName(rs.getString("ITEM_NME"));
-				order.setQuantity(rs.getInt("QUANTITY"));
-				order.setPrice(rs.getDouble("PRICE"));
-				order.setDiscount(rs.getDouble("DISCOUNT"));
-				order.setTotalAmount(rs.getDouble("TOTALAMOUNT"));
-				order.setCustomerId(rs.getLong("ORD_CUST_ID"));
-
-				orders.add(order);
-				customer.setOrders(orders);
-			}
-
-			TotalAmount totalAmount = new TotalAmount();
-			if (null != totalAmount) {
+				TotalAmount totalAmount = new TotalAmount();
 				totalAmount.setTmtId(rs.getInt("TMT_ID"));
 				totalAmount.setItemTotal(rs.getDouble("ITEM_TOTAL"));
 				totalAmount.setShippingCharge(rs.getDouble("SHIPPING_CHARGE"));
@@ -69,6 +51,20 @@ public class ExtractAllCustomerById implements ResultSetExtractor<Customer> {
 				customer.setTotalAmount(totalAmount);
 			}
 
+			Orders order = new Orders();
+			order.setItemId(rs.getInt("ITEM_ID"));
+			order.setItemType(rs.getString("ITEM_TYP"));
+			order.setItemName(rs.getString("ITEM_NME"));
+			order.setQuantity(rs.getInt("QUANTITY"));
+			order.setPrice(rs.getDouble("PRICE"));
+			order.setDiscount(rs.getDouble("DISCOUNT"));
+			order.setTotalAmount(rs.getDouble("TOTALAMOUNT"));
+			order.setCustomerId(rs.getLong("ORD_CUST_ID"));
+
+			orders.add(order);
+			customer.setOrders(orders);
+
+			rowCount++;
 		}
 		return customer;
 	}
